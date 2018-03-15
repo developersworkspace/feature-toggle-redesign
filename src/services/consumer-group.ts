@@ -48,6 +48,12 @@ export class ConsumerGroupService {
         return result;
     }
 
+    public async find(key: string): Promise<ConsumerGroup> {
+        const result: ConsumerGroup = await this.consumerGroupRepository.find(key);
+
+        return result;
+    }
+
     public async list(): Promise<ConsumerGroup[]> {
         const result: ConsumerGroup[] = await this.consumerGroupRepository.list();
 

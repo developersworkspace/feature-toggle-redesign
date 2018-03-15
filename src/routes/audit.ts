@@ -2,8 +2,9 @@ import * as express from 'express';
 import { Audit } from '../entities/audit';
 import { container } from '../ioc';
 import { AuditService } from '../services/audit';
+import { BaseRouter } from './base';
 
-export class AuditRouter {
+export class AuditRouter extends BaseRouter {
 
     public static async get(req: express.Request, res: express.Response) {
         try {
@@ -13,7 +14,7 @@ export class AuditRouter {
 
             res.json(result);
         } catch (err) {
-            res.status(500).json(err);
+            AuditRouter.sendErrorResponse(err, res);
         }
     }
 }
