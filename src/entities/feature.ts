@@ -1,5 +1,5 @@
-import { ProjectView } from "../entity-views/project-view";
-import { EnvironmentView } from "../entity-views/environment";
+import { EnvironmentView } from '../entity-views/environment';
+import { ProjectView } from '../entity-views/project-view';
 
 export class Feature {
 

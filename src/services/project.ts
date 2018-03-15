@@ -1,9 +1,9 @@
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { Project } from '../entities/project';
-import { DomainEvents } from './domain-events';
 import { OperationResult } from '../models/operation-result';
 import { IProjectRepository } from '../repositories/project';
+import { DomainEvents } from './domain-events';
 
 @injectable()
 export class ProjectService {

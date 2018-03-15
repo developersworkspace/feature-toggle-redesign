@@ -1,6 +1,6 @@
-import { IProjectRepository } from "../project";
-import { Project } from "../../entities/project";
-import { BaseRepository } from "./base";
+import { Project } from '../../entities/project';
+import { IProjectRepository } from '../project';
+import { BaseRepository } from './base';
 
 export class ProjectRepository extends BaseRepository<Project> implements IProjectRepository {
 
@@ -9,7 +9,7 @@ export class ProjectRepository extends BaseRepository<Project> implements IProje
     ) {
         super(connectionString, 'project');
     }
-    
+
     protected mapToEntity(item: any): Project {
         return new Project(item.key, item.name);
     }

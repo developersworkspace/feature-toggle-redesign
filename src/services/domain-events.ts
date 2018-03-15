@@ -1,7 +1,7 @@
-import { Project } from "../entities/project";
-import { IAuditRepository } from "../repositories/audit";
-import { Audit } from "../entities/audit";
-import { read } from "fs";
+import { read } from 'fs';
+import { Audit } from '../entities/audit';
+import { Project } from '../entities/project';
+import { IAuditRepository } from '../repositories/audit';
 
 export class DomainEvents {
 

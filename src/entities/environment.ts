@@ -1,4 +1,4 @@
-import { ConsumerGroupView } from "../entity-views/consumer-group";
+import { ConsumerGroupView } from '../entity-views/consumer-group';
 
 export class Environment {
 

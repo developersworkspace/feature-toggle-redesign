@@ -1,4 +1,4 @@
-import { Feature } from "../entities/feature";
+import { Feature } from '../entities/feature';
 
 export interface IFeatureRepository {
     create(feature: Feature): Promise<Feature>;
