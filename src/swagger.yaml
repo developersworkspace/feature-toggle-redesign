@@ -1,0 +1,228 @@
+swagger: "2.0"
+info:
+  description: "an API to manage feature toggles"
+  version: "1.0.0"
+  title: "Feature Toggle API"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "developersworkspace@gmail.com"
+  license:
+    name: "MIT"
+    url: "https://opensource.org/licenses/MIT"
+host: "feature-toggle.developersworkspace.co.za"
+basePath: "/api"
+schemes:
+- "http"
+tags:
+- name: "Audit"
+  description: "Audit"
+- name: "Consumer Group"
+  description: "Consumer Group"
+- name: "Environment"
+  description: "Environment"
+paths:
+  /audit:
+    get:
+      tags:
+        - "Audit"
+      summary: "Retrieve Audits"
+      description: ""
+      operationId: "getAudit"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Successfully retrieved audits"
+        500:
+          description: "Unexpected error occurred"
+  /consumergroup:
+    get:
+      tags:
+        - "Consumer Group"
+      summary: "Retrieve Consumer Groups"
+      description: ""
+      operationId: "getConsumerGroup"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "query"
+        name: "key"
+        description: "Counsumer Group Key"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Successfully retrieved consumer groups"
+        500:
+          description: "Unexpected error occurred"
+    post:
+      tags:
+        - "Consumer Group"
+      summary: "Create Consumer Group"
+      description: ""
+      operationId: "postConsumerGroup"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Counsumer Group"
+        required: true
+        schema:
+          $ref: "#/definitions/ConsumerGroup"
+      responses:
+        200:
+          description: "Successfully created consumer group"
+        400:
+          description: "Failed to create consumer group"
+        500:
+          description: "Unexpected error occurred"
+    put:
+      tags:
+        - "Consumer Group"
+      summary: "Update Consumer Group"
+      description: ""
+      operationId: "putConsumerGroup"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Counsumer Group"
+        required: true
+        schema:
+          $ref: "#/definitions/ConsumerGroup"
+      responses:
+        200:
+          description: "Successfully updated consumer group"
+        400:
+          description: "Failed to update consumer group"
+        500:
+          description: "Unexpected error occurred"
+  /environment:
+    get:
+      tags:
+        - "Environment"
+      summary: "Retrieve Environments"
+      description: ""
+      operationId: "getEnvironment"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Successfully retrieved environments"
+        500:
+          description: "Unexpected error occurred"
+    post:
+      tags:
+        - "Environment"
+      summary: "Create Environment"
+      description: ""
+      operationId: "postEnvironment"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Environment"
+        required: true
+        schema:
+          $ref: "#/definitions/Environment"
+      responses:
+        200:
+          description: "Successfully created environment"
+        400:
+          description: "Failed to create environment"
+        500:
+          description: "Unexpected error occurred"
+definitions:
+  Audit:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      reason:
+        type: "string"
+      timestamp:
+        type: "string"
+      userName:
+        type: "string"
+  ConsumerGroup:
+    type: "object"
+    properties:
+      consumers:
+        type: "array"
+        items:
+          type: "string"
+      key:
+        type: "string"
+      name:
+        type: "string"
+  Environment:
+    type: "object"
+    properties:
+      key:
+        type: "string"
+      name:
+        type: "string"
+  FeatureGroup:
+    type: "object"
+    properties:
+      key:
+        type: "string"
+      name:
+        type: "string"
+  Feature:
+    type: "object"
+    properties:
+      environments:
+        type: "array"
+        items:
+          $ref: "#/definitions/EnvironmentView"
+      group:
+        $ref: "#/definitions/FeatureGroupView"
+      key:
+        type: "string"
+      name:
+        type: "string"
+      project:
+        $ref: "#/definitions/ProjectView"
+      type:
+        type: "string"
+  EnvironmentView:
+    type: "object"
+    properties:
+      key:
+        type: "string"
+      name:
+        type: "string"
+  FeatureGroupView:
+    type: "object"
+    properties:
+      key:
+        type: "string"
+      name:
+        type: "string"
+  ProjectView:
+    type: "object"
+    properties:
+      key:
+        type: "string"
+      name:
+        type: "string"
+  
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"

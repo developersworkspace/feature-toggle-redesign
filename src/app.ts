@@ -6,6 +6,9 @@ import { AuthenticationMiddleware } from './middleware/authentication';
 import { AuditRouter } from './routes/audit';
 import { ConsumerGroupRouter } from './routes/consumer-group';
 import { EnvironmentRouter } from './routes/environment';
+import { FeatureRouter } from './routes/feature';
+import { FeatureGroupRouter } from './routes/feature-group';
+import { ProjectRouter } from './routes/project';
 
 const argv = yargs.argv;
 const app = express();
@@ -26,25 +29,24 @@ app.route('/api/environment')
 .get(AuthenticationMiddleware.shouldBeAuthenticated, EnvironmentRouter.get)
 .post(AuthenticationMiddleware.shouldBeAuthenticated, EnvironmentRouter.post);
 
-// app.route('/api/featuregroup')
-// .get(AuthenticationMiddleware.shouldBeAuthenticated, FeatureGroup.get)
-// .post(AuthenticationMiddleware.shouldBeAuthenticated, ConsumerGroupRouter.post)
-// .put(AuthenticationMiddleware.shouldBeAuthenticated, ConsumerGroupRouter.put);
+app.route('/api/featuregroup')
+.get(AuthenticationMiddleware.shouldBeAuthenticated, FeatureGroupRouter.get)
+.post(AuthenticationMiddleware.shouldBeAuthenticated, FeatureGroupRouter.post)
+.put(AuthenticationMiddleware.shouldBeAuthenticated, FeatureGroupRouter.put);
 
 app.route('/api/consumergroup')
 .get(AuthenticationMiddleware.shouldBeAuthenticated, ConsumerGroupRouter.get)
 .post(AuthenticationMiddleware.shouldBeAuthenticated, ConsumerGroupRouter.post)
 .put(AuthenticationMiddleware.shouldBeAuthenticated, ConsumerGroupRouter.put);
 
-// app.route('/api/feature')
-// .get(AuthenticationMiddleware.shouldBeAuthenticated, FeatureRouter.get)
-// .post(AuthenticationMiddleware.shouldBeAuthenticated, FeatureRouter.post)
-// .put(AuthenticationMiddleware.shouldBeAuthenticated, FeatureRouter.put);
+app.route('/api/feature')
+.get(AuthenticationMiddleware.shouldBeAuthenticated, FeatureRouter.get)
+.post(AuthenticationMiddleware.shouldBeAuthenticated, FeatureRouter.post)
+.put(AuthenticationMiddleware.shouldBeAuthenticated, FeatureRouter.put);
 
-// app.route('/api/project')
-// .get(AuthenticationMiddleware.shouldBeAuthenticated, ProjectRouter.get)
-// .post(AuthenticationMiddleware.shouldBeAuthenticated, ProjectRouter.post)
-// .put(AuthenticationMiddleware.shouldBeAuthenticated, ProjectRouter.put);
+app.route('/api/project')
+.get(AuthenticationMiddleware.shouldBeAuthenticated, ProjectRouter.get)
+.post(AuthenticationMiddleware.shouldBeAuthenticated, ProjectRouter.post);
 
 app.listen(argv.port || 3000, () => {
     console.log(`listening on port ${argv.port || 3000}`);
