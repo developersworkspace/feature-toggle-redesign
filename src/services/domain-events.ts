@@ -1,6 +1,7 @@
 import { read } from 'fs';
 import { Audit } from '../entities/audit';
 import { ConsumerGroup } from '../entities/consumer-group';
+import { Environment } from '../entities/environment';
 import { Project } from '../entities/project';
 import { IAuditRepository } from '../repositories/audit';
 
@@ -14,6 +15,10 @@ export class DomainEvents {
 
     public consumerGroupCreated(consumerGroup: ConsumerGroup, userName: string): void {
         this.handleEvent(`Consumer Group '${consumerGroup.name}' was created.`, null, userName);
+    }
+
+    public environmentCreated(environment: Environment, userName: string): void {
+        this.handleEvent(`Environment '${environment.name}' was created.`, null, userName);
     }
 
     public projectCreated(project: Project, userName: string): void {
@@ -30,6 +35,6 @@ export class DomainEvents {
         //     json: true
         // });
 
-        await this.auditRepository.create(new Audit(message, reason, new Date(), userName);
+        await this.auditRepository.create(new Audit(message, reason, new Date(), userName));
     }
 }
