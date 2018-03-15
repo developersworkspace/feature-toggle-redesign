@@ -1,5 +1,8 @@
+import { injectable } from 'inversify';
 import * as mongodb from 'mongodb';
+import 'reflect-metadata';
 
+@injectable()
 export abstract class BaseRepository<T> {
 
     private client: mongodb.MongoClient = null;

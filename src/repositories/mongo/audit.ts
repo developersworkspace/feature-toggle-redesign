@@ -1,7 +1,10 @@
+import { injectable } from 'inversify';
+import 'reflect-metadata';
 import { Audit } from '../../entities/audit';
 import { IAuditRepository } from '../audit';
 import { BaseRepository } from './base';
 
+@injectable()
 export class AuditRepository extends BaseRepository<Audit> implements IAuditRepository {
 
     constructor(
