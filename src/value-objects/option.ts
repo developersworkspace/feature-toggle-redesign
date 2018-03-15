@@ -1,9 +1,9 @@
-export class ConsumerGroupView {
+export class Option {
 
     constructor(
-        public consumers: string[],
         public key: string,
         public name: string,
+        public value: string,
     ) {
 
     }
