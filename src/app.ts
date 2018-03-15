@@ -1,6 +1,9 @@
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as swaggerUI from 'swagger-ui-express';
 import * as yargs from 'yargs';
 import { AuthenticationMiddleware } from './middleware/authentication';
 import { AuditRouter } from './routes/audit';
@@ -18,35 +21,32 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(cors());
 
 app.route('/api/audit')
-.get(AuthenticationMiddleware.shouldBeAuthenticated, AuditRouter.get);
+    .get(AuthenticationMiddleware.shouldBeAuthenticated, AuditRouter.get);
 
 app.route('/api/consumergroup')
-.get(AuthenticationMiddleware.shouldBeAuthenticated, ConsumerGroupRouter.get)
-.post(AuthenticationMiddleware.shouldBeAuthenticated, ConsumerGroupRouter.post)
-.put(AuthenticationMiddleware.shouldBeAuthenticated, ConsumerGroupRouter.put);
+    .get(AuthenticationMiddleware.shouldBeAuthenticated, ConsumerGroupRouter.get)
+    .post(AuthenticationMiddleware.shouldBeAuthenticated, ConsumerGroupRouter.post)
+    .put(AuthenticationMiddleware.shouldBeAuthenticated, ConsumerGroupRouter.put);
 
 app.route('/api/environment')
-.get(AuthenticationMiddleware.shouldBeAuthenticated, EnvironmentRouter.get)
-.post(AuthenticationMiddleware.shouldBeAuthenticated, EnvironmentRouter.post);
+    .get(AuthenticationMiddleware.shouldBeAuthenticated, EnvironmentRouter.get)
+    .post(AuthenticationMiddleware.shouldBeAuthenticated, EnvironmentRouter.post);
 
 app.route('/api/featuregroup')
-.get(AuthenticationMiddleware.shouldBeAuthenticated, FeatureGroupRouter.get)
-.post(AuthenticationMiddleware.shouldBeAuthenticated, FeatureGroupRouter.post)
-.put(AuthenticationMiddleware.shouldBeAuthenticated, FeatureGroupRouter.put);
-
-app.route('/api/consumergroup')
-.get(AuthenticationMiddleware.shouldBeAuthenticated, ConsumerGroupRouter.get)
-.post(AuthenticationMiddleware.shouldBeAuthenticated, ConsumerGroupRouter.post)
-.put(AuthenticationMiddleware.shouldBeAuthenticated, ConsumerGroupRouter.put);
+    .get(AuthenticationMiddleware.shouldBeAuthenticated, FeatureGroupRouter.get)
+    .post(AuthenticationMiddleware.shouldBeAuthenticated, FeatureGroupRouter.post)
+    .put(AuthenticationMiddleware.shouldBeAuthenticated, FeatureGroupRouter.put);
 
 app.route('/api/feature')
-.get(AuthenticationMiddleware.shouldBeAuthenticated, FeatureRouter.get)
-.post(AuthenticationMiddleware.shouldBeAuthenticated, FeatureRouter.post)
-.put(AuthenticationMiddleware.shouldBeAuthenticated, FeatureRouter.put);
+    .get(AuthenticationMiddleware.shouldBeAuthenticated, FeatureRouter.get)
+    .post(AuthenticationMiddleware.shouldBeAuthenticated, FeatureRouter.post)
+    .put(AuthenticationMiddleware.shouldBeAuthenticated, FeatureRouter.put);
 
 app.route('/api/project')
-.get(AuthenticationMiddleware.shouldBeAuthenticated, ProjectRouter.get)
-.post(AuthenticationMiddleware.shouldBeAuthenticated, ProjectRouter.post);
+    .get(AuthenticationMiddleware.shouldBeAuthenticated, ProjectRouter.get)
+    .post(AuthenticationMiddleware.shouldBeAuthenticated, ProjectRouter.post);
+
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(JSON.parse(fs.readFileSync(path.join(__dirname, './swagger.json'), 'utf8'))));
 
 app.listen(argv.port || 3000, () => {
     console.log(`listening on port ${argv.port || 3000}`);

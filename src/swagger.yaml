@@ -9,17 +9,23 @@ info:
   license:
     name: "MIT"
     url: "https://opensource.org/licenses/MIT"
-host: "feature-toggle.developersworkspace.co.za"
+host: "localhost:3000"
 basePath: "/api"
 schemes:
 - "http"
 tags:
 - name: "Audit"
-  description: "Audit"
+  description: "Keep track of each action"
 - name: "Consumer Group"
-  description: "Consumer Group"
+  description: "Categorize consumers"
 - name: "Environment"
-  description: "Environment"
+  description: "Define environments for features"
+- name: "Feature Group"
+  description: "Categorize features"
+- name: "Feature"
+  description: "Configure features"
+- name: "Project"
+  description: "Configure projects"
 paths:
   /audit:
     get:
@@ -147,6 +153,186 @@ paths:
           description: "Failed to create environment"
         500:
           description: "Unexpected error occurred"
+  /featuregroup:
+    get:
+      tags:
+        - "Feature Group"
+      summary: "Retrieve Feature Groups"
+      description: ""
+      operationId: "getFeatureGroup"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "query"
+        name: "key"
+        description: "Feature Group Key"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Successfully retrieved feature groups"
+        500:
+          description: "Unexpected error occurred"
+    post:
+      tags:
+        - "Feature Group"
+      summary: "Create Feature Group"
+      description: ""
+      operationId: "postFeatureGroup"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Feature Group"
+        required: true
+        schema:
+          $ref: "#/definitions/FeatureGroup"
+      responses:
+        200:
+          description: "Successfully created feature group"
+        400:
+          description: "Failed to create feature group"
+        500:
+          description: "Unexpected error occurred"
+    put:
+      tags:
+        - "Feature Group"
+      summary: "Update Feature Group"
+      description: ""
+      operationId: "putFeatureGroup"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Feature Group"
+        required: true
+        schema:
+          $ref: "#/definitions/FeatureGroup"
+      responses:
+        200:
+          description: "Successfully updated feature group"
+        400:
+          description: "Failed to update feature group"
+        500:
+          description: "Unexpected error occurred"
+  /feature:
+    get:
+      tags:
+        - "Feature"
+      summary: "Retrieve Features"
+      description: ""
+      operationId: "getFeature"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "query"
+        name: "key"
+        description: "Feature Key"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Successfully retrieved features"
+        500:
+          description: "Unexpected error occurred"
+    post:
+      tags:
+        - "Feature"
+      summary: "Create Feature"
+      description: ""
+      operationId: "postFeature"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Feature"
+        required: true
+        schema:
+          $ref: "#/definitions/Feature"
+      responses:
+        200:
+          description: "Successfully created feature"
+        400:
+          description: "Failed to create feature"
+        500:
+          description: "Unexpected error occurred"
+    put:
+      tags:
+        - "Feature"
+      summary: "Update Feature"
+      description: ""
+      operationId: "putFeature"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Feature"
+        required: true
+        schema:
+          $ref: "#/definitions/Feature"
+      responses:
+        200:
+          description: "Successfully updated feature"
+        400:
+          description: "Failed to update feature"
+        500:
+          description: "Unexpected error occurred"
+  /project:
+    get:
+      tags:
+        - "Project"
+      summary: "Retrieve Projects"
+      description: ""
+      operationId: "getProject"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Successfully retrieved projects"
+        500:
+          description: "Unexpected error occurred"
+    post:
+      tags:
+        - "Project"
+      summary: "Create Project"
+      description: ""
+      operationId: "postProject"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Project"
+        required: true
+        schema:
+          $ref: "#/definitions/Project"
+      responses:
+        200:
+          description: "Successfully created project"
+        400:
+          description: "Failed to create project"
+        500:
+          description: "Unexpected error occurred"
 definitions:
   Audit:
     type: "object"
@@ -200,6 +386,13 @@ definitions:
       project:
         $ref: "#/definitions/ProjectView"
       type:
+        type: "string"
+  Project:
+    type: "object"
+    properties:
+      key:
+        type: "string"
+      name:
         type: "string"
   EnvironmentView:
     type: "object"

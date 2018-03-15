@@ -1,0 +1,640 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "an API to manage feature toggles",
+    "version": "1.0.0",
+    "title": "Feature Toggle API",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "developersworkspace@gmail.com"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "schemes": [
+    "http"
+  ],
+  "tags": [
+    {
+      "name": "Audit",
+      "description": "Keep track of each action"
+    },
+    {
+      "name": "Consumer Group",
+      "description": "Categorize consumers"
+    },
+    {
+      "name": "Environment",
+      "description": "Define environments for features"
+    },
+    {
+      "name": "Feature Group",
+      "description": "Categorize features"
+    },
+    {
+      "name": "Feature",
+      "description": "Configure features"
+    },
+    {
+      "name": "Project",
+      "description": "Configure projects"
+    }
+  ],
+  "paths": {
+    "/audit": {
+      "get": {
+        "tags": [
+          "Audit"
+        ],
+        "summary": "Retrieve Audits",
+        "description": "",
+        "operationId": "getAudit",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved audits"
+          },
+          "500": {
+            "description": "Unexpected error occurred"
+          }
+        }
+      }
+    },
+    "/consumergroup": {
+      "get": {
+        "tags": [
+          "Consumer Group"
+        ],
+        "summary": "Retrieve Consumer Groups",
+        "description": "",
+        "operationId": "getConsumerGroup",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "key",
+            "description": "Counsumer Group Key",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved consumer groups"
+          },
+          "500": {
+            "description": "Unexpected error occurred"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Consumer Group"
+        ],
+        "summary": "Create Consumer Group",
+        "description": "",
+        "operationId": "postConsumerGroup",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Counsumer Group",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ConsumerGroup"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully created consumer group"
+          },
+          "400": {
+            "description": "Failed to create consumer group"
+          },
+          "500": {
+            "description": "Unexpected error occurred"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Consumer Group"
+        ],
+        "summary": "Update Consumer Group",
+        "description": "",
+        "operationId": "putConsumerGroup",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Counsumer Group",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ConsumerGroup"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated consumer group"
+          },
+          "400": {
+            "description": "Failed to update consumer group"
+          },
+          "500": {
+            "description": "Unexpected error occurred"
+          }
+        }
+      }
+    },
+    "/environment": {
+      "get": {
+        "tags": [
+          "Environment"
+        ],
+        "summary": "Retrieve Environments",
+        "description": "",
+        "operationId": "getEnvironment",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved environments"
+          },
+          "500": {
+            "description": "Unexpected error occurred"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Environment"
+        ],
+        "summary": "Create Environment",
+        "description": "",
+        "operationId": "postEnvironment",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Environment",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Environment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully created environment"
+          },
+          "400": {
+            "description": "Failed to create environment"
+          },
+          "500": {
+            "description": "Unexpected error occurred"
+          }
+        }
+      }
+    },
+    "/featuregroup": {
+      "get": {
+        "tags": [
+          "Feature Group"
+        ],
+        "summary": "Retrieve Feature Groups",
+        "description": "",
+        "operationId": "getFeatureGroup",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "key",
+            "description": "Feature Group Key",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved feature groups"
+          },
+          "500": {
+            "description": "Unexpected error occurred"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Feature Group"
+        ],
+        "summary": "Create Feature Group",
+        "description": "",
+        "operationId": "postFeatureGroup",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Feature Group",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FeatureGroup"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully created feature group"
+          },
+          "400": {
+            "description": "Failed to create feature group"
+          },
+          "500": {
+            "description": "Unexpected error occurred"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Feature Group"
+        ],
+        "summary": "Update Feature Group",
+        "description": "",
+        "operationId": "putFeatureGroup",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Feature Group",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FeatureGroup"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated feature group"
+          },
+          "400": {
+            "description": "Failed to update feature group"
+          },
+          "500": {
+            "description": "Unexpected error occurred"
+          }
+        }
+      }
+    },
+    "/feature": {
+      "get": {
+        "tags": [
+          "Feature"
+        ],
+        "summary": "Retrieve Features",
+        "description": "",
+        "operationId": "getFeature",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "key",
+            "description": "Feature Key",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved features"
+          },
+          "500": {
+            "description": "Unexpected error occurred"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Feature"
+        ],
+        "summary": "Create Feature",
+        "description": "",
+        "operationId": "postFeature",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Feature",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Feature"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully created feature"
+          },
+          "400": {
+            "description": "Failed to create feature"
+          },
+          "500": {
+            "description": "Unexpected error occurred"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Feature"
+        ],
+        "summary": "Update Feature",
+        "description": "",
+        "operationId": "putFeature",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Feature",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Feature"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated feature"
+          },
+          "400": {
+            "description": "Failed to update feature"
+          },
+          "500": {
+            "description": "Unexpected error occurred"
+          }
+        }
+      }
+    },
+    "/project": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "Retrieve Projects",
+        "description": "",
+        "operationId": "getProject",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved projects"
+          },
+          "500": {
+            "description": "Unexpected error occurred"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "Create Project",
+        "description": "",
+        "operationId": "postProject",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Project",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully created project"
+          },
+          "400": {
+            "description": "Failed to create project"
+          },
+          "500": {
+            "description": "Unexpected error occurred"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Audit": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "userName": {
+          "type": "string"
+        }
+      }
+    },
+    "ConsumerGroup": {
+      "type": "object",
+      "properties": {
+        "consumers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "Environment": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "FeatureGroup": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "Feature": {
+      "type": "object",
+      "properties": {
+        "environments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EnvironmentView"
+          }
+        },
+        "group": {
+          "$ref": "#/definitions/FeatureGroupView"
+        },
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "project": {
+          "$ref": "#/definitions/ProjectView"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "Project": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "EnvironmentView": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "FeatureGroupView": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "ProjectView": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}

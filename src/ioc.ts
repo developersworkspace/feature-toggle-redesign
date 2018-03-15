@@ -54,7 +54,7 @@ container.bind<ConsumerGroupService>('ConsumerGroupService').to(ConsumerGroupSer
 container.bind<EnvironmentService>('EnvironmentService').to(EnvironmentService);
 container.bind<FeatureGroupService>('FeatureGroupService').to(FeatureGroupService);
 container.bind<FeatureService>('FeatureService').to(FeatureService);
-container.bind<ProjectService>('AuditService').to(ProjectService);
+container.bind<ProjectService>('ProjectService').to(ProjectService);
 
 // Other
 container.bind<DomainEvents>('DomainEvents').to(DomainEvents);

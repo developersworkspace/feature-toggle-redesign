@@ -4,6 +4,7 @@ import { OperationResult } from '../models/operation-result';
 export class BaseRouter {
 
     protected static sendErrorResponse(err: Error, response: express.Response): void {
+        console.error(err);
         response.status(500).json(err);
     }
 

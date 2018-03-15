@@ -11,9 +11,14 @@ gulp.task('copy-package.json', function () {
     return gulp.src('./package.json').pipe(gulp.dest('./dist'));
 });
 
+gulp.task('copy-swagger.json', function () {
+    return gulp.src('./src/swagger.json').pipe(gulp.dest('./dist'));
+});
+
 gulp.task('build', function () {
     runSequence(
         'clean',
         'copy-package.json',
+        'copy-swagger.json',
     );
 });

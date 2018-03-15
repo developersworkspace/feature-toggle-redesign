@@ -1,4 +1,5 @@
-import { read } from 'fs';
+import { inject, injectable } from 'inversify';
+import 'reflect-metadata';
 import { Audit } from '../entities/audit';
 import { ConsumerGroup } from '../entities/consumer-group';
 import { Environment } from '../entities/environment';
@@ -7,9 +8,11 @@ import { FeatureGroup } from '../entities/feature-group';
 import { Project } from '../entities/project';
 import { IAuditRepository } from '../repositories/audit';
 
+@injectable()
 export class DomainEvents {
 
     constructor(
+        @inject('IAuditRepository')
         private auditRepository: IAuditRepository,
     ) {
 

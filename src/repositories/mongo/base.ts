@@ -7,7 +7,7 @@ export abstract class BaseRepository<T> {
 
     private client: mongodb.MongoClient = null;
 
-    protected databaseName: string = 'FeatureToggeRedesign';
+    protected databaseName: string = 'feature-toggle-redesign';
 
     constructor(
         private connectionString: string,
@@ -30,6 +30,10 @@ export abstract class BaseRepository<T> {
         const result: any = await collection.findOne({
             key,
         });
+
+        if (!result) {
+            return null;
+        }
 
         return this.mapToEntity(result);
     }

@@ -27,8 +27,10 @@
     "cors": "^2.8.4",
     "express": "^4.16.2",
     "inversify": "^4.10.0",
+    "mongo-mock": "^3.1.0",
     "mongodb": "^3.0.4",
     "reflect-metadata": "^0.1.12",
+    "swagger-ui-express": "^2.0.15",
     "yargs": "^9.0.1"
   },
   "devDependencies": {
