@@ -6,7 +6,7 @@ import { IProjectRepository } from '../repositories/project';
 import { DomainEvents } from './domain-events';
 
 @injectable()
-export class ProjectService {
+export class ConsumerGroupService {
 
     constructor(
         @inject('DomainEvents')

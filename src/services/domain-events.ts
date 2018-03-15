@@ -1,5 +1,6 @@
 import { read } from 'fs';
 import { Audit } from '../entities/audit';
+import { ConsumerGroup } from '../entities/consumer-group';
 import { Project } from '../entities/project';
 import { IAuditRepository } from '../repositories/audit';
 
@@ -9,6 +10,10 @@ export class DomainEvents {
         private auditRepository: IAuditRepository,
     ) {
 
+    }
+
+    public consumerGroupCreated(consumerGroup: ConsumerGroup, userName: string): void {
+        this.handleEvent(`Consumer Group '${consumerGroup.name}' was created.`, null, userName);
     }
 
     public projectCreated(project: Project, userName: string): void {
