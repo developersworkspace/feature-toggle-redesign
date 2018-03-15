@@ -34,6 +34,8 @@ export class ConsumerGroupService {
 
         project = await this.projectRepository.create(project);
 
+        result.setValue(project);
+
         this.domainEvents.projectCreated(project, userName);
 
         return result;
