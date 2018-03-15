@@ -4,6 +4,9 @@ import { Environment } from '../entities/environment';
 import { OperationResult } from '../models/operation-result';
 import { IEnvironmentRepository } from '../repositories/environment';
 import { DomainEvents } from './domain-events';
+import { Feature } from '../entities/feature';
+import { IFeatureRepository } from '../repositories/feature';
+import { EnvironmentView } from '../entity-views/environment';
 
 @injectable()
 export class EnvironmentService {
@@ -13,6 +16,8 @@ export class EnvironmentService {
         private domainEvents: DomainEvents,
         @inject('IEnvironmentRepository')
         private environmentRepository: IEnvironmentRepository,
+        @inject('IFeatureRepository')
+        private featureRepository: IFeatureRepository,
     ) {
     }
 
@@ -36,6 +41,8 @@ export class EnvironmentService {
 
         result.setValue(environment);
 
+        await this.updateFeatureEnvironments(environment);
+
         this.domainEvents.environmentCreated(environment, userName);
 
         return result;
@@ -45,6 +52,23 @@ export class EnvironmentService {
         const result: Environment[] = await this.environmentRepository.list();
 
         return result;
+    }
+
+    private async updateFeatureEnvironments(environment: Environment): Promise<void> {
+        const features: Feature[] = await this.featureRepository.list();
+
+        for (const feature of features) {
+
+            let environmentView: EnvironmentView = feature.environments.find((x) => x.key === environment.key);
+
+            if (environmentView) {
+                environmentView = new EnvironmentView(environmentView.consumerGroups, environmentView.enabled, environment.key, environment.name, environmentView.options);
+            } else {
+                feature.environments.push(new EnvironmentView([], false, environment.key, environment.name, []));
+            }
+
+            await this.featureRepository.update(feature);
+        }
     }
 
     private validateEnvironment(result: OperationResult<Environment>, environment: Environment): void {
