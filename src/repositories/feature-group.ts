@@ -1,0 +1,8 @@
+import { FeatureGroup } from '../entities/feature-group';
+
+export interface IFeatueGroupRepository {
+    create(featureGroup: FeatureGroup): Promise<FeatureGroup>;
+    find(key: string): Promise<FeatureGroup>;
+    list(): Promise<FeatureGroup[]>;
+    update(featureGroup: FeatureGroup): Promise<FeatureGroup>;
+}
