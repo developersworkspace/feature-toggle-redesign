@@ -1,3 +1,4 @@
+import * as Ajv from 'ajv';
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { ConsumerGroup } from '../entities/consumer-group';
@@ -114,6 +115,21 @@ export class ConsumerGroupService {
     }
 
     private validateConsumerGroup(result: OperationResult<ConsumerGroup>, consumerGroup: ConsumerGroup): void {
+        const ajv = new Ajv();
 
+        const validator = ajv.compile({
+            properties: {
+                key: { minLength: 2, pattern: '^[a-z|0-9|-]+$', type: 'string' },
+                name: { minLength: 2, type: 'string' },
+            },
+        });
+
+        const validationResult = validator(consumerGroup);
+
+        if (!validationResult) {
+            for (const error of validator.errors) {
+                result.addMessage(`${error.dataPath.substring(1)} ${error.message}`);
+            }
+        }
     }
 }

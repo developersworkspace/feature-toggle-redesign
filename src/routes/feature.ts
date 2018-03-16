@@ -7,6 +7,18 @@ import { BaseRouter } from './base';
 
 export class FeatureRouter extends BaseRouter {
 
+    public static async enabledGet(req: express.Request, res: express.Response) {
+        try {
+            const featureService: FeatureService = container.get<FeatureService>('FeatureService');
+
+            const result: boolean = await featureService.enabled(req.query.consumerId, req.query.environmentKey, req.query.key);
+
+            res.json(result);
+        } catch (err) {
+            FeatureRouter.sendErrorResponse(err, res);
+        }
+    }
+
     public static async get(req: express.Request, res: express.Response) {
         try {
             const featureService: FeatureService = container.get<FeatureService>('FeatureService');

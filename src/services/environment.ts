@@ -1,12 +1,13 @@
+import * as Ajv from 'ajv';
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { Environment } from '../entities/environment';
+import { Feature } from '../entities/feature';
+import { EnvironmentView } from '../entity-views/environment';
 import { OperationResult } from '../models/operation-result';
 import { IEnvironmentRepository } from '../repositories/environment';
-import { DomainEvents } from './domain-events';
-import { Feature } from '../entities/feature';
 import { IFeatureRepository } from '../repositories/feature';
-import { EnvironmentView } from '../entity-views/environment';
+import { DomainEvents } from './domain-events';
 
 @injectable()
 export class EnvironmentService {
@@ -72,6 +73,21 @@ export class EnvironmentService {
     }
 
     private validateEnvironment(result: OperationResult<Environment>, environment: Environment): void {
+        const ajv = new Ajv();
 
+        const validator = ajv.compile({
+            properties: {
+                key: { minLength: 2, pattern: '^[a-z|0-9|-]+$', type: 'string' },
+                name: { minLength: 2, type: 'string' },
+            },
+        });
+
+        const validationResult = validator(environment);
+
+        if (!validationResult) {
+            for (const error of validator.errors) {
+                result.addMessage(`${error.dataPath.substring(1)} ${error.message}`);
+            }
+        }
     }
 }

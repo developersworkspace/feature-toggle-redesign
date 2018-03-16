@@ -293,6 +293,36 @@ paths:
           description: "Failed to update feature"
         500:
           description: "Unexpected error occurred"
+  /feature/enabled:
+    get:
+      tags:
+        - "Feature"
+      summary: "Check whether a feature is enabled"
+      description: ""
+      operationId: "enabledGetFeature"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "query"
+        name: "consumerId"
+        description: "Consumer Id"
+        required: true
+        type: "string"
+      - in: "query"
+        name: "environmentKey"
+        description: "Environment Key"
+        required: true
+        type: "string"
+      - in: "query"
+        name: "key"
+        description: "Feature Key"
+        required: true
+        type: "string"
+      responses:
+        500:
+          description: "Unexpected error occurred"
   /project:
     get:
       tags:

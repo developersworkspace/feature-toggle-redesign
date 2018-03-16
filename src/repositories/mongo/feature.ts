@@ -20,11 +20,11 @@ export class FeatureRepository extends BaseRepository<Feature> implements IFeatu
 
     protected mapToEntity(item: any): Feature {
         return new Feature(
-            this.mapToEnvironments(item.environments),
-            this.mapToFeatureGroup(item.group),
+            item.environments ? this.mapToEnvironments(item.environments) : [],
+            item.group ? this.mapToFeatureGroup(item.group) : null,
             item.key,
             item.name,
-            this.mapToProject(item.project),
+            item.project ? this.mapToProject(item.project) : null,
             item.type,
         );
     }

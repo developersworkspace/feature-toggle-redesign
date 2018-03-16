@@ -1,3 +1,4 @@
+import * as Ajv from 'ajv';
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { Feature } from '../entities/feature';
@@ -97,6 +98,21 @@ export class FeatureGroupService {
     }
 
     private validateFeatureGroup(result: OperationResult<FeatureGroup>, featureGroup: FeatureGroup): void {
+        const ajv = new Ajv();
 
+        const validator = ajv.compile({
+            properties: {
+                key: { minLength: 2, pattern: '^[a-z|0-9|-]+$', type: 'string' },
+                name: { minLength: 2, type: 'string' },
+            },
+        });
+
+        const validationResult = validator(featureGroup);
+
+        if (!validationResult) {
+            for (const error of validator.errors) {
+                result.addMessage(`${error.dataPath.substring(1)} ${error.message}`);
+            }
+        }
     }
 }

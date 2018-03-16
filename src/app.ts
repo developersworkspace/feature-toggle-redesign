@@ -42,13 +42,16 @@ app.route('/api/feature')
     .post(AuthenticationMiddleware.shouldBeAuthenticated, FeatureRouter.post)
     .put(AuthenticationMiddleware.shouldBeAuthenticated, FeatureRouter.put);
 
+app.route('/api/feature/enabled')
+    .get(AuthenticationMiddleware.shouldBeAuthenticated, FeatureRouter.enabledGet);
+
 app.route('/api/project')
     .get(AuthenticationMiddleware.shouldBeAuthenticated, ProjectRouter.get)
     .post(AuthenticationMiddleware.shouldBeAuthenticated, ProjectRouter.post);
 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(JSON.parse(fs.readFileSync(path.join(__dirname, './swagger.json'), 'utf8'))));
 
-app.listen(argv.port || 3000, () => {
+app.listen(argv.port || process.env.PORT || 3000, () => {
     console.log(`listening on port ${argv.port || 3000}`);
 });
 

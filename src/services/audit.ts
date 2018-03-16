@@ -13,7 +13,18 @@ export class AuditService {
     }
 
     public async list(): Promise<Audit[]> {
-        const result: Audit[] = await this.auditRepository.list();
+        let result: Audit[] = await this.auditRepository.list();
+
+        result = result.sort((a: Audit, b: Audit) => {
+            if (a.timestamp.getTime() < b.timestamp.getTime()) {
+                return 1;
+            }
+            if (a.timestamp.getTime() > b.timestamp.getTime()) {
+                return -1;
+            }
+
+            return 0;
+        });
 
         return result;
     }

@@ -1,8 +1,11 @@
+import * as Ajv from 'ajv';
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
+import { Environment } from '../entities/environment';
 import { Feature } from '../entities/feature';
 import { EnvironmentView } from '../entity-views/environment';
 import { OperationResult } from '../models/operation-result';
+import { IEnvironmentRepository } from '../repositories/environment';
 import { IFeatureRepository } from '../repositories/feature';
 import { DomainEvents } from './domain-events';
 
@@ -12,6 +15,8 @@ export class FeatureService {
     constructor(
         @inject('DomainEvents')
         private domainEvents: DomainEvents,
+        @inject('IEnvironmentRepository')
+        private environmentRepository: IEnvironmentRepository,
         @inject('IFeatureRepository')
         private featureRepository: IFeatureRepository,
     ) {
@@ -33,6 +38,14 @@ export class FeatureService {
             return result;
         }
 
+        const environments: Environment[] = await this.environmentRepository.list();
+
+        for (const environment of environments) {
+            if (!feature.environments.find((x) => x.key === environment.key)) {
+                feature.environments.push(new EnvironmentView([], false, environment.key, environment.name, []));
+            }
+        }
+
         feature = await this.featureRepository.create(feature);
 
         result.setValue(feature);
@@ -52,20 +65,20 @@ export class FeatureService {
         const environment: EnvironmentView = feature.environments.find((x) => x.key === environmentKey);
 
         if (!environment) {
-           return false;
-       }
+            return false;
+        }
 
         if (!environment.enabled) {
-           return false;
-       }
+            return false;
+        }
 
         for (const consumerGroup of environment.consumerGroups) {
-           const consumer: string = consumerGroup.consumers.find((x) => x === consumerId);
+            const consumer: string = consumerGroup.consumers.find((x) => x === consumerId);
 
-           if (consumer) {
-               return true;
-           }
-       }
+            if (consumer) {
+                return true;
+            }
+        }
 
         return false;
     }
@@ -107,6 +120,24 @@ export class FeatureService {
     }
 
     private validateFeature(result: OperationResult<Feature>, feature: Feature): void {
+        const ajv = new Ajv();
 
+        const validator = ajv.compile({
+            properties: {
+                key: { minLength: 2, pattern: '^[a-z|0-9|-]+$', type: 'string' },
+                name: { minLength: 2, type: 'string' },
+                project: { type: 'object' },
+                type: { type: 'string' },
+            },
+            required: ['project'],
+        });
+
+        const validationResult = validator(feature);
+
+        if (!validationResult) {
+            for (const error of validator.errors) {
+                result.addMessage(`${error.dataPath.substring(1)} ${error.message}`);
+            }
+        }
     }
 }
