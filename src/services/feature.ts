@@ -89,6 +89,12 @@ export class FeatureService {
         return false;
     }
 
+    public async find(key: string): Promise<Feature> {
+        const result: Feature = await this.featureRepository.find(key);
+
+        return result;
+    }
+
     public async list(): Promise<Feature[]> {
         const result: Feature[] = await this.featureRepository.list();
 

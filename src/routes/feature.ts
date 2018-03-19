@@ -21,11 +21,19 @@ export class FeatureRouter extends BaseRouter {
 
     public static async get(req: express.Request, res: express.Response) {
         try {
-            const featureService: FeatureService = container.get<FeatureService>('FeatureService');
+            if (req.query.key) {
+                const featureService: FeatureService = container.get<FeatureService>('FeatureService');
 
-            const result: Feature[] = await featureService.list();
+                const result: Feature = await featureService.find(req.query.key);
 
-            res.json(result);
+                res.json(result);
+            } else {
+                const featureService: FeatureService = container.get<FeatureService>('FeatureService');
+
+                const result: Feature[] = await featureService.list();
+
+                res.json(result);
+            }
         } catch (err) {
             FeatureRouter.sendErrorResponse(err, res);
         }

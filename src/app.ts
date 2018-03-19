@@ -1,3 +1,4 @@
+import * as appInsights from 'applicationinsights';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
@@ -5,6 +6,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as swaggerUI from 'swagger-ui-express';
 import * as yargs from 'yargs';
+import { config } from './config';
 import { AuthenticationMiddleware } from './middleware/authentication';
 import { AuditRouter } from './routes/audit';
 import { ConsumerGroupRouter } from './routes/consumer-group';
@@ -50,6 +52,25 @@ app.route('/api/project')
     .post(AuthenticationMiddleware.shouldBeAuthenticated, ProjectRouter.post);
 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(JSON.parse(fs.readFileSync(path.join(__dirname, './swagger.json'), 'utf8'))));
+
+// Legacy Routes
+
+app.route('/api/features')
+    .get(AuthenticationMiddleware.shouldBeAuthenticated, FeatureRouter.get)
+    .post(AuthenticationMiddleware.shouldBeAuthenticated, FeatureRouter.post)
+    .put(AuthenticationMiddleware.shouldBeAuthenticated, FeatureRouter.put);
+
+app.route('/api/features/enabled')
+    .get(AuthenticationMiddleware.shouldBeAuthenticated, FeatureRouter.enabledGet);
+
+appInsights.setup(config.applicationInsights.instrumentationKey).setAutoDependencyCorrelation(true)
+    .setAutoCollectRequests(true)
+    .setAutoCollectPerformance(true)
+    .setAutoCollectExceptions(true)
+    .setAutoCollectDependencies(true)
+    .setAutoCollectConsole(true)
+    .setUseDiskRetryCaching(true)
+    .start();
 
 app.listen(argv.port || process.env.PORT || 3000, () => {
     console.log(`listening on port ${argv.port || 3000}`);
