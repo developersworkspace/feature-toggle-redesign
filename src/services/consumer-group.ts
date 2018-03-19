@@ -13,10 +13,10 @@ import { DomainEvents } from './domain-events';
 export class ConsumerGroupService {
 
     constructor(
-        @inject('DomainEvents')
-        private domainEvents: DomainEvents,
         @inject('IConsumerGroupRepository')
         private consumerGroupRepository: IConsumerGroupRepository,
+        @inject('DomainEvents')
+        private domainEvents: DomainEvents,
         @inject('IFeatureRepository')
         private featureRepository: IFeatureRepository,
     ) {
@@ -102,7 +102,7 @@ export class ConsumerGroupService {
                 let consumerGroupView: ConsumerGroupView = environment.consumerGroups.find((x) => x.key === consumerGroup.key);
 
                 if (consumerGroup) {
-                    consumerGroupView = new ConsumerGroupView(consumerGroup.consumers, consumerGroup.key, consumerGroup.name);
+                    consumerGroupView = new ConsumerGroupView(consumerGroup.key, consumerGroup.name);
 
                     updated = true;
                 }
@@ -129,6 +129,30 @@ export class ConsumerGroupService {
         if (!validationResult) {
             for (const error of validator.errors) {
                 result.addMessage(`${error.dataPath.substring(1)} ${error.message}`);
+            }
+        }
+
+        this.validateConsumers(result, consumerGroup);
+    }
+
+    private validateConsumers(result: OperationResult<ConsumerGroup>, consumerGroup: ConsumerGroup): void {
+        for (const consumer of consumerGroup.consumers) {
+            const ajv = new Ajv();
+
+            const validator = ajv.compile({
+                properties: {
+                    consumer: { minLength: 1, type: 'string' },
+                },
+            });
+
+            const validationResult = validator({
+                consumer,
+            });
+
+            if (!validationResult) {
+                for (const error of validator.errors) {
+                    result.addMessage(`${error.dataPath.substring(1)} ${error.message}`);
+                }
             }
         }
     }

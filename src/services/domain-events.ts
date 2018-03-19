@@ -23,7 +23,7 @@ export class DomainEvents {
     }
 
     public consumerGroupUpdated(consumerGroup: ConsumerGroup, userName: string): void {
-        this.handleEvent(`Consumer Group '${consumerGroup.name}' was created.`, null, userName);
+        this.handleEvent(`Consumer Group '${consumerGroup.name}' was updated.`, null, userName);
     }
 
     public environmentCreated(environment: Environment, userName: string): void {

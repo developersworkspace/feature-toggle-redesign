@@ -1,10 +1,12 @@
 import * as Ajv from 'ajv';
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
+import { ConsumerGroup } from '../entities/consumer-group';
 import { Environment } from '../entities/environment';
 import { Feature } from '../entities/feature';
 import { EnvironmentView } from '../entity-views/environment';
 import { OperationResult } from '../models/operation-result';
+import { IConsumerGroupRepository } from '../repositories/consumer-group';
 import { IEnvironmentRepository } from '../repositories/environment';
 import { IFeatureRepository } from '../repositories/feature';
 import { DomainEvents } from './domain-events';
@@ -13,6 +15,8 @@ import { DomainEvents } from './domain-events';
 export class FeatureService {
 
     constructor(
+        @inject('IConsumerGroupRepository')
+        private consumerGroupRepository: IConsumerGroupRepository,
         @inject('DomainEvents')
         private domainEvents: DomainEvents,
         @inject('IEnvironmentRepository')
@@ -73,7 +77,9 @@ export class FeatureService {
         }
 
         for (const consumerGroup of environment.consumerGroups) {
-            const consumer: string = consumerGroup.consumers.find((x) => x === consumerId);
+            const consumerGroupEntity: ConsumerGroup = await this.consumerGroupRepository.find(consumerGroup.key);
+
+            const consumer: string = consumerGroupEntity.consumers.find((x) => x === consumerId);
 
             if (consumer) {
                 return true;
@@ -139,5 +145,7 @@ export class FeatureService {
                 result.addMessage(`${error.dataPath.substring(1)} ${error.message}`);
             }
         }
+
     }
+
 }

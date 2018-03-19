@@ -30,7 +30,7 @@ export class FeatureRepository extends BaseRepository<Feature> implements IFeatu
     }
 
     private mapToConsumerGroups(items: any[]): ConsumerGroupView[] {
-        return items.map((item) => new ConsumerGroupView(item.consumers, item.key, item.name));
+        return items.map((item) => new ConsumerGroupView(item.key, item.name));
     }
 
     private mapToEnvironments(items: any[]): EnvironmentView[] {

@@ -7,7 +7,7 @@ export abstract class BaseRepository<T> {
 
     private client: mongodb.MongoClient = null;
 
-    protected databaseName: string = 'feature-toggle-redesign';
+    protected databaseName: string = 'feature-toggle-redesign-1';
 
     constructor(
         private connectionString: string,
